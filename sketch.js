@@ -30,12 +30,12 @@ function drawBranches(tick) {
     }
     branches=newbranches; //Replace the array of old branches with the new ones
   }
-  //Draw all branches in the array
+  //Style for the ellipses
   var l=tick/maxticks; //interpolate through animation (0..1) for size and color
   var s=lerp(15,5,l);
   var c=lerpColor(color(200,150,25),color(50,200,50),l);
   fill(c);
-
+  //Draw all branches in the array
   var l=(tick%bifurate)/bifurate; //interpolation along branch (0..1) for position
   for (var i=0; i<branches.length; i++) { //and draw an ellipse at each point
     var b=branches[i];
