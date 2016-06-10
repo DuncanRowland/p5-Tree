@@ -18,8 +18,8 @@ function rotateAndScaleVector(v,a,s) {
 
 function drawBranches(tick) {
   if(tick%bifurate==0) { //Fork all branches and replace array
-  var newbranches=[];
-  for (var i=0; i<branches.length; i++) {
+    var newbranches=[];
+    for (var i=0; i<branches.length; i++) {
       var b=branches[i];
       var s={x:b.e.x, y:b.e.y}; //start point of new branch (i.e. end of old one)
       var d={x:b.e.x-b.s.x, y:b.e.y-b.s.y}; //vector (end-start) of old branch
