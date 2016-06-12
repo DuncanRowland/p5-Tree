@@ -4,9 +4,13 @@ var maxticks=160; //How long to keep going for? (160 frames)
 var bifurate=20; //How often to split the branch (every 20 frames)
 var branches=[]; //Just start with one 'branch' (i.e. the trunk)
 branches.push({s:{x:320, y:480}, e:{x:320, y:400}}); //Trunk {s:start,e:end}
+var bgimg;
+var canvas;
 
 function setup() {
-  createCanvas(640, 480);
+  canvas = createCanvas(640, 480);
+  var pd = pixelDensity();
+  bgimg = createImage(640*pd,480*pd);
   frameRate(30);
 }
 
@@ -33,7 +37,7 @@ function drawBranches(tick) {
   //Style for the ellipses
   var l=tick/maxticks; //interpolate through animation (0..1) for size and color
   var s=lerp(15,5,l);
-  var c=lerpColor(color(200,150,25),color(50,200,50),l);
+  var c=lerpColor(color(200,150,25),color(50,50,50),l);
   fill(c);
   //Draw all branches in the array
   var l=(tick%bifurate)/bifurate; //interpolation along branch (0..1) for position
@@ -45,8 +49,28 @@ function drawBranches(tick) {
   }
 }
 
+function drawLeaves(tick) {
+  fill(color(50,200,50));
+  for (var i=0; i<branches.length; i++) {
+    b=branches[i];
+    if(b.e.y<475) {
+      b.e.x=b.e.x+2*(Math.random()-0.5);
+      b.e.y=b.e.y+2*(Math.random()-0.5)+2;
+    }
+    ellipse(b.e.x, b.e.y, 10, 5);
+  }
+}
+
 function draw() {
   if(frameCount<maxticks) {
     drawBranches(frameCount);
+  }
+  if(frameCount==maxticks) {
+    bgimg.copy(canvas,0,0,640,480,0,0,bgimg.width,bgimg.height);
+  }
+  if(frameCount>=maxticks && frameCount<maxticks+500) {
+    clear();
+    background(bgimg);
+    drawLeaves(frameCount-maxticks);
   }
 }
